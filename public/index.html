@@ -8,63 +8,76 @@
 </head>
 <body>
   <div class="container">
-    <h1>Gerador de Senhas Seguras</h1>
-    <div class="output">
-      <input type="text" id="password" readonly placeholder="Sua senha aparecerá aqui" />
-      <button type="button" id="copy">Copiar</button>
+    <h2>Use nossa ferramenta online de geração de senhas para criar instantaneamente uma senha segura e aleatória.</h2>
+
+    <div class="password-box">
+      <input type="text" id="generated-password" readonly>
+      <div class="actions">
+        <button id="copy">📋</button>
+        <button id="refresh">🔄</button>
+      </div>
     </div>
+
     <form id="form">
-      <label for="length">Tamanho da senha: <span id="range-value">12</span></label>
-      <input type="range" id="length" name="length" value="12" min="4" max="64">
-      <label><input type="checkbox" id="uppercase" checked> Incluir maiúsculas</label>
-      <label><input type="checkbox" id="lowercase" checked> Incluir minúsculas</label>
-      <label><input type="checkbox" id="numbers" checked> Incluir números</label>
-      <label><input type="checkbox" id="symbols" checked> Incluir símbolos</label>
-      <button type="submit" class="generate">Gerar Senha</button>
+      <div class="section">
+        <label for="length">Número de caracteres da senha</label>
+        <input type="number" id="length" name="length" value="12" min="4" max="64">
+      </div>
+
+      <div class="section radio-group">
+        <label><input type="radio" name="mode" value="all" checked> Todos os caracteres</label>
+        <label><input type="radio" name="mode" value="pronounceable" disabled> Fácil de pronunciar</label>
+        <label><input type="radio" name="mode" value="readable" disabled> Fácil de ler</label>
+      </div>
+
+      <div class="section checkbox-group">
+        <label><input type="checkbox" id="uppercase" checked> Letra maiúscula</label>
+        <label><input type="checkbox" id="lowercase" checked> Letra minúscula</label>
+        <label><input type="checkbox" id="numbers" checked> Números</label>
+        <label><input type="checkbox" id="symbols" checked> Símbolos</label>
+      </div>
+
+      <button type="submit" class="generate-btn">Copiar senha</button>
     </form>
-    <div id="result" class="error"></div>
   </div>
 
   <script>
     const form = document.getElementById('form');
-    const resultDiv = document.getElementById('result');
-    const passwordInput = document.getElementById('password');
+    const passwordInput = document.getElementById('generated-password');
     const copyBtn = document.getElementById('copy');
-    const range = document.getElementById('length');
-    const rangeValue = document.getElementById('range-value');
+    const refreshBtn = document.getElementById('refresh');
 
-    range.addEventListener('input', () => {
-      rangeValue.textContent = range.value;
-    });
-
-    copyBtn.addEventListener('click', () => {
-      if (passwordInput.value) {
-        navigator.clipboard.writeText(passwordInput.value);
-        copyBtn.textContent = 'Copiado!';
-        setTimeout(() => copyBtn.textContent = 'Copiar', 1500);
-      }
-    });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const length = range.value;
+    async function generateAndDisplayPassword() {
+      const length = document.getElementById('length').value;
       const uppercase = document.getElementById('uppercase').checked;
       const lowercase = document.getElementById('lowercase').checked;
       const numbers = document.getElementById('numbers').checked;
       const symbols = document.getElementById('symbols').checked;
 
       const params = new URLSearchParams({ length, uppercase, lowercase, numbers, symbols });
-
       const res = await fetch(`/generate?${params.toString()}`);
       const data = await res.json();
+      passwordInput.value = data.password || '';
+    }
 
-      if (data.password) {
-        passwordInput.value = data.password;
-        resultDiv.textContent = '';
-      } else {
-        passwordInput.value = '';
-        resultDiv.textContent = data.error;
-      }
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await generateAndDisplayPassword();
+      passwordInput.select();
+      document.execCommand("copy");
+    });
+
+    copyBtn.addEventListener('click', () => {
+      passwordInput.select();
+      document.execCommand("copy");
+    });
+
+    refreshBtn.addEventListener('click', () => {
+      generateAndDisplayPassword();
+    });
+
+    window.addEventListener('load', () => {
+      generateAndDisplayPassword();
     });
   </script>
 </body>
