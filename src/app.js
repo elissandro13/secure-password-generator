@@ -1,6 +1,9 @@
 const express = require('express');
 const path = require('path');
 const { generatePassword } = require('./password');
+const { checkPasswordBreach } = require('./check-breach');
+const { checkPasswordStrength } = require('./checkPasswordStrength');
+const { console } = require('inspector');
 
 const app = express();
 const port = 3000;
@@ -24,19 +27,28 @@ app.get('/generate', (req, res) => {
   }
 });
 
-const { checkPasswordStrength } = require('./checkPasswordStrength');
-
-app.get('/checkPasswordStrength', (req, res) => {
+app.get('/check-Password-Strength', (req, res) => {
+  
   const result = checkPasswordStrength(req.query.password);
   if (!result.valid) {
     return res.status(400).json({ message: result.message });
   }
   return res.json({ message: result.message });
+  
 });
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
+app.get('/check-breach', async (req, res) => {
+  const password = req.query.password;
+  const result = await checkPasswordBreach(password);
+  if (!result.valid) {
+    return res.status(400).json({ message: result.message });
+  }
+  return res.json({ message: result.message, count: result.count });
+});
 
 
 app.listen(port, () => console.log(`Servidor rodando em: http://localhost:${port}`));

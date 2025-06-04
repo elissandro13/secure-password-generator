@@ -2,7 +2,8 @@ function checkPasswordStrength(password) {
   if (!password) {
     return { valid: false, message: 'Senha não informada.' };
   }
-
+    console.log("Received request to check password strength");
+  
   const length = password.length;
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);

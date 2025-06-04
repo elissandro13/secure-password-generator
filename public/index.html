@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gerador de Senhas</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    .result {
+      font-weight: bold;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
+    .safe { background-color: #d4edda; color: #155724; }
+    .warning { background-color: #fff3cd; color: #856404; }
+    .danger { background-color: #f8d7da; color: #721c24; }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -12,15 +23,15 @@
 
     <div class="tabs">
       <button class="tab-btn active" data-tab="generate">Criar Senha</button>
-      <button class="tab-btn" data-tab="check">Verificar Senha</button>
+      <button class="tab-btn" data-tab="check">Analisar Senha</button>
     </div>
 
     <div class="tab-content" id="generate">
       <div class="password-box">
         <input type="text" id="generated-password" readonly>
         <div class="actions">
-          <button id="copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg></button>
-          <button id="refresh"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg></button>
+          <button id="copy">📋</button>
+          <button id="refresh">🔄</button>
         </div>
       </div>
 
@@ -47,9 +58,10 @@
           <label for="password-check">Digite a senha para verificar</label>
           <input type="text" id="password-check" name="password-check">
         </div>
-        <button type="submit" class="check-btn">Verificar senha</button>
+        <button type="button" id="check-strength" class="check-btn">Verificar força</button>
+        <button type="button" id="check-breach" class="check-btn">Verificar vazamento</button>
       </form>
-      <div id="check-result" class="hidden"></div>
+      <div id="check-result" class="hidden result"></div>
     </div>
   </div>
 
@@ -109,16 +121,44 @@
       });
     });
 
-    const checkForm = document.getElementById('check-form');
     const checkResult = document.getElementById('check-result');
 
-    checkForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    document.getElementById('check-strength').addEventListener('click', async () => {
       const password = document.getElementById('password-check').value;
-      const res = await fetch(`/checkPasswordStrength?password=${encodeURIComponent(password)}`);
-      const data = await res.json();
-      checkResult.textContent = data.message || 'Erro ao verificar senha';
       checkResult.classList.remove('hidden');
+      checkResult.textContent = 'Verificando força...';
+      checkResult.className = 'result';
+
+      try {
+        const res = await fetch(`/check-Password-Strength?password=${encodeURIComponent(password)}`);
+        const data = await res.json();
+        let level = 'safe';
+        if (data.message.includes('Muito fraca')) level = 'danger';
+        else if (data.message.includes('Média')) level = 'warning';
+        checkResult.classList.add(level);
+        checkResult.innerHTML = `<p>${data.message}</p>`;
+      } catch {
+        checkResult.textContent = 'Erro ao verificar força da senha.';
+        checkResult.classList.add('danger');
+      }
+    });
+
+    document.getElementById('check-breach').addEventListener('click', async () => {
+      const password = document.getElementById('password-check').value;
+      checkResult.classList.remove('hidden');
+      checkResult.textContent = 'Verificando vazamento...';
+      checkResult.className = 'result';
+
+      try {
+        const res = await fetch(`/check-breach?password=${encodeURIComponent(password)}`);
+        const data = await res.json();
+        let level = data.count > 0 ? 'danger' : 'safe';
+        checkResult.classList.add(level);
+        checkResult.innerHTML = `<p>${data.message}</p>`;
+      } catch {
+        checkResult.textContent = 'Erro ao verificar vazamento.';
+        checkResult.classList.add('danger');
+      }
     });
   </script>
 </body>
