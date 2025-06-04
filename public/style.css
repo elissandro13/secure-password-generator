@@ -95,3 +95,40 @@ body {
   .generate-btn:hover {
     background-color: #b71c1c;
   }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  
+  .tab-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #e0e0e0;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 0 5px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .tab-btn.active {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .tab-btn:hover {
+    background-color: #d6d6d6;
+  }
+  
+  .tab-content.hidden {
+    display: none;
+  }
+  
+  #check-result {
+    margin-top: 1rem;
+    padding: 0.5rem;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+  }

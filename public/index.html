@@ -8,31 +8,49 @@
 </head>
 <body>
   <div class="container">
-    <h2>Gere uma senha segura e aleatória!</h2>
+    <h2>Gerador de Senhas</h2>
 
-    <div class="password-box">
-      <input type="text" id="generated-password" readonly>
-      <div class="actions">
-        <button id="copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg></button>
-        <button id="refresh"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg></button>
-      </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="generate">Criar Senha</button>
+      <button class="tab-btn" data-tab="check">Verificar Senha</button>
     </div>
 
-    <form id="form">
-      <div class="section">
-        <label for="length">Número de caracteres da senha</label>
-        <input type="number" id="length" name="length" value="12" min="4" max="64">
+    <div class="tab-content" id="generate">
+      <div class="password-box">
+        <input type="text" id="generated-password" readonly>
+        <div class="actions">
+          <button id="copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg></button>
+          <button id="refresh"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg></button>
+        </div>
       </div>
 
-      <div class="section checkbox-group">
-        <label><input type="checkbox" id="uppercase" checked> Letra maiúscula</label>
-        <label><input type="checkbox" id="lowercase" checked> Letra minúscula</label>
-        <label><input type="checkbox" id="numbers" checked> Números</label>
-        <label><input type="checkbox" id="symbols" checked> Símbolos</label>
-      </div>
+      <form id="form">
+        <div class="section">
+          <label for="length">Número de caracteres da senha</label>
+          <input type="number" id="length" name="length" value="12" min="4" max="64">
+        </div>
 
-      <button type="submit" class="generate-btn">Copiar senha</button>
-    </form>
+        <div class="section checkbox-group">
+          <label><input type="checkbox" id="uppercase" checked> Letra maiúscula</label>
+          <label><input type="checkbox" id="lowercase" checked> Letra minúscula</label>
+          <label><input type="checkbox" id="numbers" checked> Números</label>
+          <label><input type="checkbox" id="symbols" checked> Símbolos</label>
+        </div>
+
+        <button type="submit" class="generate-btn">Gerar Senha</button>
+      </form>
+    </div>
+
+    <div class="tab-content hidden" id="check">
+      <form id="check-form">
+        <div class="section">
+          <label for="password-check">Digite a senha para verificar</label>
+          <input type="text" id="password-check" name="password-check">
+        </div>
+        <button type="submit" class="check-btn">Verificar senha</button>
+      </form>
+      <div id="check-result" class="hidden"></div>
+    </div>
   </div>
 
   <script>
@@ -72,6 +90,35 @@
 
     window.addEventListener('load', () => {
       generateAndDisplayPassword();
+    });
+
+    const tabs = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        contents.forEach(content => {
+          content.classList.add('hidden');
+          if (content.id === tab.dataset.tab) {
+            content.classList.remove('hidden');
+          }
+        });
+      });
+    });
+
+    const checkForm = document.getElementById('check-form');
+    const checkResult = document.getElementById('check-result');
+
+    checkForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const password = document.getElementById('password-check').value;
+      const res = await fetch(`/check-password?password=${encodeURIComponent(password)}`);
+      const data = await res.json();
+      checkResult.textContent = data.message || 'Erro ao verificar senha';
+      checkResult.classList.remove('hidden');
     });
   </script>
 </body>
