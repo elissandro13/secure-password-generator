@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Senhas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Gerador de Senhas Seguras</h1>
+    <form id="form">
+      <label for="length">Tamanho da senha:</label>
+      <input type="number" id="length" name="length" value="12" min="4" max="64">
+      <label><input type="checkbox" id="uppercase" checked> Incluir maiúsculas</label>
+      <label><input type="checkbox" id="lowercase" checked> Incluir minúsculas</label>
+      <label><input type="checkbox" id="numbers" checked> Incluir números</label>
+      <label><input type="checkbox" id="symbols" checked> Incluir símbolos</label>
+      <button type="submit">Gerar Senha</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('form');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const length = document.getElementById('length').value;
+      const uppercase = document.getElementById('uppercase').checked;
+      const lowercase = document.getElementById('lowercase').checked;
+      const numbers = document.getElementById('numbers').checked;
+      const symbols = document.getElementById('symbols').checked;
+
+      const params = new URLSearchParams({ length, uppercase, lowercase, numbers, symbols });
+
+      const res = await fetch(`/generate?${params.toString()}`);
+      const data = await res.json();
+
+      resultDiv.innerHTML = data.password ? `<p><strong>Senha:</strong> ${data.password}</p>` : `<p>${data.error}</p>`;
+    });
+  </script>
+</body>
+</html>
