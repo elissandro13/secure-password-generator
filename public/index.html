@@ -8,13 +8,13 @@
 </head>
 <body>
   <div class="container">
-    <h2>Use nossa ferramenta online de geração de senhas para criar instantaneamente uma senha segura e aleatória.</h2>
+    <h2>Gere uma senha segura e aleatória!</h2>
 
     <div class="password-box">
       <input type="text" id="generated-password" readonly>
       <div class="actions">
-        <button id="copy">📋</button>
-        <button id="refresh">🔄</button>
+        <button id="copy"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg></button>
+        <button id="refresh"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg></button>
       </div>
     </div>
 
@@ -22,12 +22,6 @@
       <div class="section">
         <label for="length">Número de caracteres da senha</label>
         <input type="number" id="length" name="length" value="12" min="4" max="64">
-      </div>
-
-      <div class="section radio-group">
-        <label><input type="radio" name="mode" value="all" checked> Todos os caracteres</label>
-        <label><input type="radio" name="mode" value="pronounceable" disabled> Fácil de pronunciar</label>
-        <label><input type="radio" name="mode" value="readable" disabled> Fácil de ler</label>
       </div>
 
       <div class="section checkbox-group">

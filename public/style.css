@@ -43,11 +43,32 @@ body {
     outline: none;
   }
   
+  .actions {
+    gap: 8px;
+    display: flex
+;
+    flex-direction: column;
+  }
   .actions button {
     background: none;
     border: none;
     font-size: 1.2rem;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin: 0 10px; /* Adiciona espaço horizontal entre os botões */
+  }
+  
+  .actions button:hover {
+    background-color: #d6d6d6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   }
   
   .section {
@@ -74,4 +95,3 @@ body {
   .generate-btn:hover {
     background-color: #b71c1c;
   }
-  

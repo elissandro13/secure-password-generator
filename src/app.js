@@ -24,4 +24,4 @@ app.get('/generate', (req, res) => {
   }
 });
 
-app.listen(port, () => console.log(`Listening on localhost:${port}`));
+app.listen(port, () => console.log(`Servidor rodando em: http://localhost:${port}`));
