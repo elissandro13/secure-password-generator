@@ -24,4 +24,19 @@ app.get('/generate', (req, res) => {
   }
 });
 
+const { checkPasswordStrength } = require('./checkPasswordStrength');
+
+app.get('/checkPasswordStrength', (req, res) => {
+  const result = checkPasswordStrength(req.query.password);
+  if (!result.valid) {
+    return res.status(400).json({ message: result.message });
+  }
+  return res.json({ message: result.message });
+});
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});
+
+
+
 app.listen(port, () => console.log(`Servidor rodando em: http://localhost:${port}`));

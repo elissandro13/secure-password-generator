@@ -115,7 +115,7 @@
     checkForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const password = document.getElementById('password-check').value;
-      const res = await fetch(`/check-password?password=${encodeURIComponent(password)}`);
+      const res = await fetch(`/checkPasswordStrength?password=${encodeURIComponent(password)}`);
       const data = await res.json();
       checkResult.textContent = data.message || 'Erro ao verificar senha';
       checkResult.classList.remove('hidden');
