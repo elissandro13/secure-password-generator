@@ -6,8 +6,9 @@ Aplicação web simples e funcional para geração de senhas seguras, desenvolvi
 
 ## 👥 Membros do Grupo
 
-- Elissandro Júnior  
-*(Adicione outros membros se houver)*
+- Elissandro Caetano Júnior
+- Gustavo Viveiros
+- Vitor Fagundes Alves Nogueira
 
 ---
 
