@@ -1,8 +1,11 @@
 const express = require('express');
+const path = require('path');
 const { generatePassword } = require('./password');
 
 const app = express();
 const port = 3000;
+
+app.use(express.static(path.join(__dirname, '../public')));
 
 app.get('/generate', (req, res) => {
   const options = {
