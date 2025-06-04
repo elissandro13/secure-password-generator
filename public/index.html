@@ -9,25 +9,45 @@
 <body>
   <div class="container">
     <h1>Gerador de Senhas Seguras</h1>
+    <div class="output">
+      <input type="text" id="password" readonly placeholder="Sua senha aparecerá aqui" />
+      <button type="button" id="copy">Copiar</button>
+    </div>
     <form id="form">
-      <label for="length">Tamanho da senha:</label>
-      <input type="number" id="length" name="length" value="12" min="4" max="64">
+      <label for="length">Tamanho da senha: <span id="range-value">12</span></label>
+      <input type="range" id="length" name="length" value="12" min="4" max="64">
       <label><input type="checkbox" id="uppercase" checked> Incluir maiúsculas</label>
       <label><input type="checkbox" id="lowercase" checked> Incluir minúsculas</label>
       <label><input type="checkbox" id="numbers" checked> Incluir números</label>
       <label><input type="checkbox" id="symbols" checked> Incluir símbolos</label>
-      <button type="submit">Gerar Senha</button>
+      <button type="submit" class="generate">Gerar Senha</button>
     </form>
-    <div id="result"></div>
+    <div id="result" class="error"></div>
   </div>
 
   <script>
     const form = document.getElementById('form');
     const resultDiv = document.getElementById('result');
+    const passwordInput = document.getElementById('password');
+    const copyBtn = document.getElementById('copy');
+    const range = document.getElementById('length');
+    const rangeValue = document.getElementById('range-value');
+
+    range.addEventListener('input', () => {
+      rangeValue.textContent = range.value;
+    });
+
+    copyBtn.addEventListener('click', () => {
+      if (passwordInput.value) {
+        navigator.clipboard.writeText(passwordInput.value);
+        copyBtn.textContent = 'Copiado!';
+        setTimeout(() => copyBtn.textContent = 'Copiar', 1500);
+      }
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const length = document.getElementById('length').value;
+      const length = range.value;
       const uppercase = document.getElementById('uppercase').checked;
       const lowercase = document.getElementById('lowercase').checked;
       const numbers = document.getElementById('numbers').checked;
@@ -38,7 +58,13 @@
       const res = await fetch(`/generate?${params.toString()}`);
       const data = await res.json();
 
-      resultDiv.innerHTML = data.password ? `<p><strong>Senha:</strong> ${data.password}</p>` : `<p>${data.error}</p>`;
+      if (data.password) {
+        passwordInput.value = data.password;
+        resultDiv.textContent = '';
+      } else {
+        passwordInput.value = '';
+        resultDiv.textContent = data.error;
+      }
     });
   </script>
 </body>
