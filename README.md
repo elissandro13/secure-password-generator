@@ -1,4 +1,5 @@
 # 🔐 Secure Password Generator
+[![codecov](https://codecov.io/gh/elissandro13/secure-password-generator/graph/badge.svg?token=PT0TN4Q45L)](https://codecov.io/gh/elissandro13/secure-password-generator)
 
 Aplicação web simples e funcional para geração de senhas seguras, desenvolvida com Node.js e Express. Permite personalizar a composição da senha e utilizá-la com segurança em sistemas e plataformas. Ideal para estudo de boas práticas de testes automatizados e integração contínua.
 
