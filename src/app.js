@@ -10,6 +10,9 @@ const port = 3000;
 
 app.use(express.static(path.join(__dirname, '../public')));
 
+app.listen(port, () => console.log(`Servidor rodando em: http://localhost:${port}`));
+
+
 app.get('/generate', (req, res) => {
   const options = {
     length: parseInt(req.query.length) || 12,
@@ -28,7 +31,7 @@ app.get('/generate', (req, res) => {
 });
 
 app.get('/check-Password-Strength', (req, res) => {
-  
+
   const result = checkPasswordStrength(req.query.password);
   if (!result.valid) {
     return res.status(400).json({ message: result.message });
@@ -51,4 +54,3 @@ app.get('/check-breach', async (req, res) => {
 });
 
 
-app.listen(port, () => console.log(`Servidor rodando em: http://localhost:${port}`));
