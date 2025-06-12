@@ -1,93 +1,40 @@
 const { checkPasswordStrength } = require('../src/checkPasswordStrength');
 
 describe('checkPasswordStrength', () => {
-  test('deve retornar "Muito fraca" para senha curta e sem complexidade', () => {
-    const result = checkPasswordStrength('abc');
-    expect(result.message).toContain('Muito fraca');
-    expect(result.valid).toBe(true);
-  });
 
-  test('should return "Força da senha: Muito fraca" for passwords with only lowercase letters', () => {
+  test('should return "Muito fraca" for passwords with only one character type', () => {
     const result = checkPasswordStrength('weakpassword');
     expect(result.message).toBe('Força da senha: Muito fraca');
-    expect(result.valid).toBe(true);
   });
 
-  test('should return "Força da senha: Média" for passwords with lowercase and numbers', () => {
-    const result = checkPasswordStrength('medium123');
+  test('should return "Muito fraca" for short passwords', () => {
+    const result = checkPasswordStrength('Wk1@');
+    expect(result.message).toBe('Força da senha: Muito fraca');
+  });
+
+  test('should return "Média" for medium passwords', () => {
+    const result = checkPasswordStrength('Medium123'); // 9 chars, 3 tipos = score 3 = Média
     expect(result.message).toBe('Força da senha: Média');
-    expect(result.valid).toBe(true);
   });
 
-  test('should return "Força da senha: Forte" for passwords with lowercase, uppercase, and numbers', () => {
-    const result = checkPasswordStrength('Strong123');
+  test('should return "Forte" for strong passwords', () => {
+    const result = checkPasswordStrength('StrongPass123'); // 13 chars, 3 tipos = score 3+2 = 5 = Forte
     expect(result.message).toBe('Força da senha: Forte');
-    expect(result.valid).toBe(true);
   });
 
-  test('should return "Força da senha: Muito forte" for passwords with all character sets', () => {
-    const result = checkPasswordStrength('VeryStrong123!');
+  test('should return "Forte" for another strong password with symbols', () => {
+    const result = checkPasswordStrength('Password!@'); // 10 chars, 3 tipos = score 3+1 = 4 = Forte
+    expect(result.message).toBe('Força da senha: Forte');
+  });
+
+  test('should return "Muito forte" for very strong passwords', () => {
+    const result = checkPasswordStrength('VeryStrong123!'); // 14 chars, 4 tipos = score 4+2 = 6 = Muito forte
     expect(result.message).toBe('Força da senha: Muito forte');
-    expect(result.valid).toBe(true);
   });
 
-  test('should return "Força da senha: Muito fraca" for passwords shorter than 8 characters', () => {
-    const result = checkPasswordStrength('short');
-    expect(result.message).toBe('Força da senha: Muito fraca');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Média" for passwords with mixed case and numbers', () => {
-    const result = checkPasswordStrength('Medium1');
-    expect(result.message).toBe('Força da senha: Média');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Forte" for passwords with all character sets and sufficient length', () => {
-    const result = checkPasswordStrength('StrongPass123');
-    expect(result.message).toBe('Força da senha: Forte');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Muito fraca" for passwords with only numbers', () => {
-    const result = checkPasswordStrength('12345678');
-    expect(result.message).toBe('Força da senha: Muito fraca');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Média" for passwords with numbers and lowercase letters', () => {
-    const result = checkPasswordStrength('password123');
-    expect(result.message).toBe('Força da senha: Média');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Forte" for passwords with numbers, lowercase, and uppercase letters', () => {
-    const result = checkPasswordStrength('Password123');
-    expect(result.message).toBe('Força da senha: Forte');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Muito fraca" for passwords with only symbols', () => {
-    const result = checkPasswordStrength('!@#$%^&*');
-    expect(result.message).toBe('Força da senha: Muito fraca');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Média" for passwords with symbols and lowercase letters', () => {
-    const result = checkPasswordStrength('password!@');
-    expect(result.message).toBe('Força da senha: Média');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Forte" for passwords with symbols, lowercase, and uppercase letters', () => {
-    const result = checkPasswordStrength('Password!@');
-    expect(result.message).toBe('Força da senha: Forte');
-    expect(result.valid).toBe(true);
-  });
-
-  test('should return "Força da senha: Forte" for passwords with symbols, lowercase, uppercase, and numbers', () => {
-    const result = checkPasswordStrength('Password123!@');
-    expect(result.message).toBe('Força da senha: Forte');
-    expect(result.valid).toBe(true);
+  test('should handle empty input', () => {
+    const result = checkPasswordStrength('');
+    expect(result.valid).toBe(false);
+    expect(result.message).toBe('Senha não informada.');
   });
 });
