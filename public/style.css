@@ -44,11 +44,11 @@ body {
   }
   
   .actions {
-    gap: 8px;
-    display: flex
-;
-    flex-direction: column;
+    gap: 16px;
+    display: flex;
+    margin-left: 5px;
   }
+
   .actions button {
     background: none;
     border: none;
@@ -63,7 +63,6 @@ body {
     background-color: #e0e0e0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, box-shadow 0.3s;
-    margin: 0 10px; /* Adiciona espaço horizontal entre os botões */
   }
   
   .actions button:hover {
@@ -131,4 +130,8 @@ body {
   padding: 0.5rem;
   background-color: #f0f0f0;
   border-radius: 4px;
+}
+.range-input{
+  margin-top: 8px;
+  margin-left: 16px;
 }
