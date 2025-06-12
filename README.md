@@ -1,14 +1,15 @@
-# 🔐 Secure Password Generator
+# 🔐 Gerador e Analisador de Senhas
 [![codecov](https://codecov.io/gh/elissandro13/secure-password-generator/graph/badge.svg?token=PT0TN4Q45L)](https://codecov.io/gh/elissandro13/secure-password-generator)
 
 Aplicação web simples e funcional para geração de senhas seguras, desenvolvida com Node.js e Express. Permite personalizar a composição da senha e utilizá-la com segurança em sistemas e plataformas. Ideal para estudo de boas práticas de testes automatizados e integração contínua.
 
 ---
+![Tela de Geração de Senha](./docs/GeradordeSenhas.png)
 
 ## 👥 Membros do Grupo
 
 - Elissandro Caetano Júnior
-- Gustavo Viveiros
+- Gustavo Henrique Gonçalves Viveiros
 - Vitor Fagundes Alves Nogueira
 
 ---
@@ -24,6 +25,28 @@ Este projeto foi desenvolvido como parte do trabalho prático de Engenharia de S
 
 ---
 
+## ✨ Funcionalidades Principais
+
+O projeto é dividido em duas abas principais:
+
+### Gerador de Senhas
+* **Comprimento Personalizável:** Escolha o número de caracteres da senha (de 8 a 32).
+* **Composição da Senha:** Inclua ou exclua conjuntos de caracteres:
+    * Letras Maiúsculas (A-Z)
+    * Letras Minúsculas (a-z)
+    * Números (0-9)
+    * Símbolos (!@#$%^&*)
+* **Geração Aleatória e Legível:** Crie senhas totalmente aleatórias ou senhas "legíveis", que são mais fáceis de memorizar.
+* **Copiar com um Clique:** Copie a senha gerada diretamente para a área de transferência.
+
+### Analisador de Senhas
+* **Análise de Força:** Verifique a robustez de uma senha com base em critérios como comprimento, variedade de caracteres e complexidade.
+* **Verificação de Vazamentos:** Consulte APIs de segurança para saber se a senha já apareceu em algum vazamento de dados conhecido.
+
+![Tela de Análise de Senha](./docs/AnalisarSenha.png)
+
+---
+
 ## 💻 Tecnologias Utilizadas
 
 - **Node.js** – Ambiente de execução JavaScript
@@ -35,6 +58,10 @@ Este projeto foi desenvolvido como parte do trabalho prático de Engenharia de S
 ---
 
 ## 🚀 Como Executar o Projeto
+
+**Pré-requisitos:**
+* Node.js (v18 ou superior)
+* Git
 
 1. **Clone o repositório**
 
@@ -89,15 +116,6 @@ secure-password-generator/
 ├── README.md
 └── package.json
 ```
-
----
-
-## 📌 Funcionalidades
-
-- Escolher tamanho da senha
-- Incluir/excluir: letras maiúsculas, minúsculas, números e símbolos
-- Interface amigável e responsiva
-- Geração imediata de senha com apenas um clique
 
 ---
 
