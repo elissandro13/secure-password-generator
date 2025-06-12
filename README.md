@@ -4,7 +4,7 @@
 Aplicação web simples e funcional para geração de senhas seguras, desenvolvida com Node.js e Express. Permite personalizar a composição da senha e utilizá-la com segurança em sistemas e plataformas. Ideal para estudo de boas práticas de testes automatizados e integração contínua.
 
 ---
-![Tela de Geração de Senha](./docs/GeradordeSenhas.png)
+![Tela de Geração de Senha](./images/GeradordeSenhas.png)
 
 ## 👥 Membros do Grupo
 
@@ -43,7 +43,7 @@ O projeto é dividido em duas abas principais:
 * **Análise de Força:** Verifique a robustez de uma senha com base em critérios como comprimento, variedade de caracteres e complexidade.
 * **Verificação de Vazamentos:** Consulte APIs de segurança para saber se a senha já apareceu em algum vazamento de dados conhecido.
 
-![Tela de Análise de Senha](./docs/AnalisarSenha.png)
+![Tela de Análise de Senha](./images/AnalisarSenha.png)
 
 ---
 
