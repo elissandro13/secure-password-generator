@@ -101,21 +101,19 @@ npm test
 ## 📂 Estrutura do Projeto
 
 ```
+
 secure-password-generator/
-├── public/               # Interface web
-│   ├── index.html
-│   └── style.css
-├── src/                  # Lógica e API
-│   ├── app.js
-│   └── password.js
-├── tests/                # Testes unitários
+├── .github/              # Pipeline de Integração Contínua (CI/CD)
+├── images/               # Imagens do projeto
+├── public/               # Interface web (HTML, CSS, JS do cliente)
+├── src/                  # Lógica e API (backend)
+│   ├── app.js            # Servidor Express
+│   └── password.js       # Módulo de geração de senhas
+├── tests/                # Testes unitários com Jest
 │   └── password.test.js
-├── .github/workflows/    # CI/CD
-│   └── ci.yml
 ├── .gitignore
 ├── README.md
 └── package.json
-```
 
 ---
 
