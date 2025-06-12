@@ -10,7 +10,6 @@
     .result {
       font-weight: bold;
       padding: 10px;
-      border-radius: 5px;
       margin-top: 15px;
     }
 
@@ -60,38 +59,53 @@
         </div>
       </div>
 
-      <form id="form">
-        <div class="section">
-          <label for="length">Número de caracteres da senha:</label>
+      <form id="form" class="form-password">
+        <div class="section section-range">
+          <label for="length" class="label-range">Número de caracteres da senha:</label>
           <div class="range-input">
-            <input type="range" id="length" name="length" value="12" min="4" max="64" oninput="document.getElementById('length-value').textContent = this.value">
-            <span ><strong id="length-value">12</strong></span>
+            <input type="range" id="length" name="length" value="12" min="4" max="64" class="input-range"
+              oninput="document.getElementById('length-value').textContent = this.value">
+            <span class="length-value"><strong id="length-value">12</strong></span>
           </div>
         </div>
 
-        <div class="section checkbox-group">
-          <label><input type="checkbox" id="uppercase" checked> Letra maiúscula</label>
-          <label><input type="checkbox" id="lowercase" checked> Letra minúscula</label>
-          <label><input type="checkbox" id="numbers" checked> Números</label>
-          <label><input type="checkbox" id="symbols" checked> Símbolos</label>
+        <div class="section checkbox-group section-checkbox">
+          <label class="checkbox-label">
+            <input type="checkbox" id="uppercase" checked class="checkbox-input"> Letra maiúscula
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="lowercase" checked class="checkbox-input"> Letra minúscula
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="numbers" checked class="checkbox-input"> Números
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="symbols" checked class="checkbox-input"> Símbolos
+          </label>
         </div>
 
-        <button type="submit" class="generate-btn">Gerar Senha Aleatória</button>
-        <button type="button" id="generate-readable" class="generate-btn"
-          style="margin-top: 0.5rem; background-color: #1976d2;">Gerar Senha Legível</button>
+        <button type="submit" class="generate-btn btn-random">
+          Gerar Senha Aleatória
+        </button>
+        <button type="button" id="generate-readable" class="generate-btn btn-readable">
+          Gerar Senha Legível
+        </button>
       </form>
     </div>
 
     <div class="tab-content hidden" id="check">
       <form id="check-form">
         <div class="section">
-          <label for="password-check">Digite a senha para verificar</label>
-          <input type="text" id="password-check" name="password-check">
+          <label for="password-check"><h3>Digite a senha para verificar:</h3></label>
+          <div class="password-box">
+            <input type="text" id="password-check" name="password-check" placeholder="Digite sua senha aqui">
+          </div>
         </div>
-        <button type="button" id="check-strength" class="check-btn">Verificar força</button>
-        <button type="button" id="check-breach" class="check-btn">Verificar vazamento</button>
+        <div id="check-result" class="hidden result"></div>
+        <button type="button" id="check-strength" class="generate-btn btn-random">Verificar força</button>
+        <button type="button" id="check-breach" class="generate-btn btn-readable">Verificar vazamento</button>
       </form>
-      <div id="check-result" class="hidden result"></div>
+      
     </div>
   </div>
 
@@ -116,7 +130,14 @@
     }
 
     async function generateReadablePassword() {
-      const res = await fetch('/generate-readable');
+      const length = document.getElementById('length').value;
+      const uppercase = document.getElementById('uppercase').checked;
+      const lowercase = document.getElementById('lowercase').checked;
+      const numbers = document.getElementById('numbers').checked;
+      const symbols = document.getElementById('symbols').checked;
+
+      const params = new URLSearchParams({ length, uppercase, lowercase, numbers, symbols });
+      const res = await fetch(`/generate-readable?${params.toString()}`);
       const data = await res.json();
       passwordInput.value = data.password || '';
     }

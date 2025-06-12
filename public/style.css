@@ -1,137 +1,219 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  
-  .container {
-    background: white;
-    padding: 2rem;
-    border-radius: 10px;
-    width: 90%;
-    max-width: 500px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  }
-  
-  h2 {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-  }
-  
-  .password-box {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: #f0f0f0;
-    border: 2px solid #4caf50;
-    border-radius: 8px;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .password-box input {
-    border: none;
-    background: transparent;
-    font-size: 1.2rem;
-    width: 100%;
-    outline: none;
-  }
-  
-  .actions {
-    gap: 16px;
-    display: flex;
-    margin-left: 5px;
-  }
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
 
-  .actions button {
-    background: none;
-    border: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #e0e0e0;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s, box-shadow 0.3s;
-  }
-  
-  .actions button:hover {
-    background-color: #d6d6d6;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .section {
-    margin-bottom: 1rem;
-  }
-  
-  .radio-group label,
-  .checkbox-group label {
-    display: block;
-    margin: 0.3rem 0;
-  }
-  
-  .generate-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background-color: #d32f2f;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .generate-btn:hover {
-    background-color: #b71c1c;
-  }
-  
-  .tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1rem;
-  }
-  
-  .tab-btn {
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #e0e0e0;
-    cursor: pointer;
-    font-size: 1rem;
-    margin: 0 5px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-  }
-  
-  .tab-btn.active {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .tab-btn:hover {
-    background-color: #d6d6d6;
-  }
-  
-  .tab-content.hidden {
-    display: none;
-  }
-  
-  #check-result {
+.container {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.password-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f0f0f0;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.password-box input {
+  border: none;
+  background: transparent;
+  font-size: 1.2rem;
+  width: 100%;
+  outline: none;
+}
+
+.actions {
+  gap: 16px;
+  display: flex;
+  margin-left: 5px;
+}
+
+.actions button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.actions button:hover {
+  background-color: #d6d6d6;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.section {
+  margin-bottom: 1rem;
+}
+
+.radio-group label,
+.checkbox-group label {
+  display: flex;
+  margin: 0.3rem 0;
+  justify-content: center;
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #d32f2f;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.generate-btn:hover {
+  background-color: #b71c1c;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.tab-btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #e0e0e0;
+  cursor: pointer;
+  font-size: 1rem;
+  margin: 0 5px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.tab-btn.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.tab-btn:hover {
+  background-color: #d6d6d6;
+}
+
+.tab-content.hidden {
+  display: none;
+}
+
+#check-result {
   margin-top: 1rem;
   padding: 0.5rem;
-  background-color: #f0f0f0;
-  border-radius: 4px;
+  margin-bottom: 1rem;
 }
-.range-input{
+
+.range-input {
   margin-top: 8px;
   margin-left: 16px;
+}
+
+.form-password {
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.section-range {
+  margin-bottom: 1.2rem;
+}
+
+.label-range {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.range-input {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.input-range {
+  flex: 1;
+  accent-color: #43a047;
+  background: #e0e0e0;
+  border-radius: 6px;
+  height: 6px;
+}
+
+.length-value {
+  font-size: 1.1rem;
+}
+
+.section-checkbox {
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-weight: 400;
+}
+
+.checkbox-input {
+  accent-color: #43a047;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.btn-random {
+  width: 100%;
+  background: #43a047;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 0;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 0.7rem;
+  transition: background 0.2s;
+}
+
+.btn-readable {
+  width: 100%;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.8rem 0;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
 }

@@ -57,9 +57,11 @@ app.get('/check-breach', async (req, res) => {
 
 app.get('/generate-readable', (req, res) => {
   const options = {
-    length: req.query.length,
-    numbers: req.query.numbers,
-    symbols: req.query.symbols
+    length: parseInt(req.query.length) || 12,
+    uppercase: req.query.uppercase !== 'false',
+    lowercase: req.query.lowercase !== 'false',
+    numbers: req.query.numbers !== 'false',
+    symbols: req.query.symbols !== 'false',
   };
   const password = generateReadablePassword(options);
   res.json({ password });
