@@ -1,7 +1,7 @@
 // VERSÃO FINAL E CORRETA
 function generatePassword(options = {}) {
   const length = options.length ?? 12; //MUDANCA AQUI
-  if (typeof length !== 'number' || length < 1) {
+  if (typeof length !== 'number' || length < 1) { //
     throw new Error('Password length must be a positive number.');
   }
 
