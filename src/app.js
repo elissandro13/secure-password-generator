@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const { generatePassword } = require('./password');
+const { generatePassword, generateReadablePassword } = require('./password');
 const { checkPasswordBreach } = require('./check-breach');
 const { checkPasswordStrength } = require('./checkPasswordStrength');
 const { console } = require('inspector');
@@ -54,3 +54,8 @@ app.get('/check-breach', async (req, res) => {
 });
 
 
+
+app.get('/generate-readable', (req, res) => {
+  const password = generateReadablePassword();
+  res.json({ password });
+});

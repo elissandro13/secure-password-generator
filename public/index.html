@@ -48,7 +48,8 @@
           <label><input type="checkbox" id="symbols" checked> Símbolos</label>
         </div>
 
-        <button type="submit" class="generate-btn">Gerar Senha</button>
+        <button type="submit" class="generate-btn">Gerar Senha Aleatória</button>
+        <button type="button" id="generate-readable" class="generate-btn" style="margin-top: 0.5rem; background-color: #1976d2;">Gerar Senha Legível</button>
       </form>
     </div>
 
@@ -70,6 +71,7 @@
     const passwordInput = document.getElementById('generated-password');
     const copyBtn = document.getElementById('copy');
     const refreshBtn = document.getElementById('refresh');
+    const readableBtn = document.getElementById('generate-readable');
 
     async function generateAndDisplayPassword() {
       const length = document.getElementById('length').value;
@@ -84,9 +86,21 @@
       passwordInput.value = data.password || '';
     }
 
+    async function generateReadablePassword() {
+      const res = await fetch('/generate-readable');
+      const data = await res.json();
+      passwordInput.value = data.password || '';
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       await generateAndDisplayPassword();
+      passwordInput.select();
+      document.execCommand("copy");
+    });
+
+    readableBtn.addEventListener('click', async () => {
+      await generateReadablePassword();
       passwordInput.select();
       document.execCommand("copy");
     });
@@ -130,7 +144,7 @@
       checkResult.className = 'result';
 
       try {
-        const res = await fetch(`/check-Password-Strength?password=${encodeURIComponent(password)}`);
+        const res = await fetch(`/check-password-strength?password=${encodeURIComponent(password)}`);
         const data = await res.json();
         let level = 'safe';
         if (data.message.includes('Muito fraca')) level = 'danger';
