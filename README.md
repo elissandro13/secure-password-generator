@@ -114,11 +114,3 @@ secure-password-generator/
 ├── package-lock.json
 └── README.md
 ```
-
----
-
-## ✅ Exemplo de Uso
-
-![Demo](./images/GeradordeSenhas.png)
-
-Explore também a aba de análise de senha para verificar robustez e segurança!
