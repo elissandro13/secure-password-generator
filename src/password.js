@@ -125,7 +125,8 @@ function generateReadablePassword(options = {}) {
   } else if (!includeUppercase && includeLowercase) {
     finalPasswordStr = finalPasswordStr.toLowerCase();
   } else if (includeUppercase && includeLowercase) {
-    finalPasswordStr = finalPasswordStr.charAt(0).toUpperCase() + finalPasswordStr.slice(1);
+    // Capitalizar primeira letra que for alfabética
+    finalPasswordStr = finalPasswordStr.replace(/[a-zA-Z]/, c => c.toUpperCase());
   }
 
   return finalPasswordStr;
