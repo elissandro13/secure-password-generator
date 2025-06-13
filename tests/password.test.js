@@ -16,10 +16,6 @@ describe('generatePassword', () => {
     expect(pwd).toMatch(/^[a-z]+$/);
   });
 
-  test('should throw error if no character sets selected', () => {
-    expect(() => generatePassword({ lowercase: false, uppercase: false, numbers: false, symbols: false })).toThrow();
-  });
-
   test('should include numbers when specified', () => {
     const pwd = generatePassword({ numbers: true, lowercase: false, uppercase: false, symbols: false });
     expect(pwd).toMatch(/^[0-9]+$/);
@@ -43,9 +39,9 @@ describe('generatePassword', () => {
     expect(pwd).toMatch(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/);
   });
 
-  test('should generate password with minimum length of 1', () => {
-    const pwd = generatePassword({ length: 1 });
-    expect(pwd).toHaveLength(1);
+  test('should generate password with minimum length of 3', () => {
+    expect(() => generatePassword({ length: 3 })).toThrow();
+    
   });
 
   test('should generate password with maximum length of 100', () => {
@@ -76,9 +72,6 @@ describe('generatePassword', () => {
     expect(() => generatePassword({ length: -1 })).toThrow();
   });
 
-  test('should throw error for invalid character set configuration', () => {
-    expect(() => generatePassword({ lowercase: false, uppercase: false, numbers: false, symbols: false })).toThrow();
-  });
 
   test('should generate password with specific length and mixed character sets', () => {
     const pwd = generatePassword({ length: 15, lowercase: true, uppercase: true, numbers: true, symbols: true });
@@ -113,7 +106,7 @@ describe('generateReadablePassword', () => {
     const pwd = generateReadablePassword();
 
     // 1. Verifica o comprimento total
-    expect(pwd).toHaveLength(10);
+    expect(pwd).toHaveLength(12);
 
     // 2. Verifica se CADA TIPO de caractere está presente, não importa a ordem
     expect(pwd).toMatch(/[A-Z]/);       // Contém ao menos uma letra maiúscula
@@ -122,8 +115,8 @@ describe('generateReadablePassword', () => {
     expect(pwd).toMatch(/[!@#$%^&*]/); // Contém ao menos um símbolo do conjunto esperado
   });
 
-  test('should include a capital letter when enabled', () => { // Nome do teste ficou mais preciso
-    const pwd = generateReadablePassword();
+  test('should include a capital letter when enabled', () => { 
+    const pwd = generateReadablePassword({ numbers: true, symbols: true, lowercase: false, uppercase: true });
     expect(pwd).toMatch(/[A-Z]/); // Correto: procura por uma maiúscula em QUALQUER LUGAR
   });
 

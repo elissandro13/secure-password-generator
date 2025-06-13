@@ -1,4 +1,3 @@
-// VERSÃO FINAL E CORRETA para src/check-breach.js
 const crypto = require('crypto');
 const axios = require('axios');
 

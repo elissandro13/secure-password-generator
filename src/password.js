@@ -1,14 +1,18 @@
-// VERSÃO FINAL E CORRETA
 function generatePassword(options = {}) {
-  const length = options.length ?? 12; //MUDANCA AQUI
-  if (typeof length !== 'number' || length < 1) { //
-    throw new Error('Password length must be a positive number.');
+  const length = options.length ?? 12;
+
+  if (typeof length !== 'number' || length < 4) {
+    throw new Error('Password length must be greater than four.');
   }
 
-  const includeUppercase = options.uppercase ?? true;
-  const includeLowercase = options.lowercase ?? true;
-  const includeNumbers = options.numbers ?? true;
-  const includeSymbols = options.symbols ?? true;
+  // Verifica se nenhuma opção de caractere foi explicitamente definida
+  const noOptionsSet = [options.uppercase, options.lowercase, options.numbers, options.symbols]
+    .every(v => v === undefined || v === false);
+
+  const includeUppercase = noOptionsSet || options.uppercase === true;
+  const includeLowercase = noOptionsSet || options.lowercase === true;
+  const includeNumbers = noOptionsSet || options.numbers === true;
+  const includeSymbols = noOptionsSet || options.symbols === true;
 
   const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const lower = 'abcdefghijklmnopqrstuvwxyz';
@@ -35,14 +39,12 @@ function generatePassword(options = {}) {
     guaranteedChars.push(symbols[Math.floor(Math.random() * symbols.length)]);
   }
 
-  if (!chars) {
-    throw new Error('No character sets selected');
-  }
-  
   const remainingLength = length - guaranteedChars.length;
   let randomChars = [];
   if (remainingLength > 0) {
-     randomChars = Array.from({ length: remainingLength }, () => chars[Math.floor(Math.random() * chars.length)]);
+    randomChars = Array.from({ length: remainingLength }, () =>
+      chars[Math.floor(Math.random() * chars.length)]
+    );
   }
 
   const finalPassword = [...guaranteedChars, ...randomChars];
@@ -56,53 +58,77 @@ function generatePassword(options = {}) {
 
 
 function generateReadablePassword(options = {}) {
-  const targetLength = parseInt(options.length) || 10;
-  const includeNumbers = options.numbers ?? true;
-  const includeSymbols = options.symbols ?? true;
-  const includeUppercase = options.uppercase ?? true;
 
-  const syllables = ["ba","be","bi","bo","bu","ca","ce","ci","co","cu","da","de","di","do","du","fa","fe","fi","fo","fu","ga","ge","gi","go","gu","la","le","li","lo","lu","ma","me","mi","mo","mu","na","ne","ni","no","nu","pa","pe","pi","po","pu","ra","re","ri","ro","ru","sa","se","si","so","su","ta","te","ti","to","tu"];
+  const noOptionsSet = [options.uppercase, options.lowercase, options.numbers, options.symbols]
+    .every(v => v === undefined || v === false);
+
+  const length = options.length ?? 12;
+  const includeUppercase = noOptionsSet || options.uppercase === true;
+  const includeLowercase = noOptionsSet || options.lowercase === true;
+  const includeNumbers = noOptionsSet || options.numbers === true;
+  const includeSymbols = noOptionsSet || options.symbols === true;
+
+  if (isNaN(length) || length < 4) {
+    throw new Error('Password length must be a number and greater than 3.');
+  }
+
+  const syllables = [
+    "ba", "be", "bi", "bo", "bu", "ca", "ce", "ci", "co", "cu",
+    "da", "de", "di", "do", "du", "fa", "fe", "fi", "fo", "fu",
+    "ga", "ge", "gi", "go", "gu", "la", "le", "li", "lo", "lu",
+    "ma", "me", "mi", "mo", "mu", "na", "ne", "ni", "no", "nu",
+    "pa", "pe", "pi", "po", "pu", "ra", "re", "ri", "ro", "ru",
+    "sa", "se", "si", "so", "su", "ta", "te", "ti", "to", "tu"
+  ];
+
   const numberChars = '0123456789';
   const symbolChars = '!@#$';
 
   let password = [];
   let currentLength = 0;
-  
+
   if (includeSymbols) {
-      password.push(symbolChars[Math.floor(Math.random() * symbolChars.length)]);
-      currentLength++;
+    password.push(symbolChars[Math.floor(Math.random() * symbolChars.length)]);
+    currentLength++;
   }
+
   if (includeNumbers) {
-      password.push(numberChars[Math.floor(Math.random() * numberChars.length)]);
+    password.push(numberChars[Math.floor(Math.random() * numberChars.length)]);
+    currentLength++;
+  }
+
+  while (currentLength < length) {
+    let syllable = syllables[Math.floor(Math.random() * syllables.length)];
+
+    if (currentLength + syllable.length > length) {
+      const fallback = "abcdefghijklmnopqrstuvwxyz";
+      password.push(fallback[Math.floor(Math.random() * fallback.length)]);
       currentLength++;
+      continue;
+    }
+
+    password.push(syllable);
+    currentLength += syllable.length;
   }
-  
-  while(currentLength < targetLength) {
-      let syllable = syllables[Math.floor(Math.random() * syllables.length)];
-      if(currentLength + syllable.length > targetLength) {
-          if (currentLength < targetLength) {
-            const lastChar = "abcdefghijklmnopqrstuvwxyz";
-            password.push(lastChar[Math.floor(Math.random() * lastChar.length)]);
-            currentLength++;
-          }
-          continue;
-      }
-      password.push(syllable);
-      currentLength += syllable.length;
-  }
-  
-   for (let i = password.length - 1; i > 0; i--) {
+
+  // Embaralhar
+  for (let i = password.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [password[i], password[j]] = [password[j], password[i]];
   }
 
-  let finalPasswordStr = password.join('');
-  
-  if (includeUppercase) {
-    finalPasswordStr = finalPasswordStr.replace(/[a-z]/, char => char.toUpperCase());
+  let finalPasswordStr = password.join('').substring(0, length);
+
+
+  if (includeUppercase && !includeLowercase) {
+    finalPasswordStr = finalPasswordStr.toUpperCase();
+  } else if (!includeUppercase && includeLowercase) {
+    finalPasswordStr = finalPasswordStr.toLowerCase();
+  } else if (includeUppercase && includeLowercase) {
+    finalPasswordStr = finalPasswordStr.charAt(0).toUpperCase() + finalPasswordStr.slice(1);
   }
 
-  return finalPasswordStr.substring(0, targetLength);
+  return finalPasswordStr;
 }
 
 module.exports = { generatePassword, generateReadablePassword };

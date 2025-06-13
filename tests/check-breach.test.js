@@ -10,7 +10,6 @@ describe('checkPasswordBreach (real API)', () => {
 
   test('should detect a leaked password', async () => {
     const result = await checkPasswordBreach('123456');
-    console.log(result);
     expect(result.valid).toBe(true);
     expect(result.breached).toBe(true);
     expect(result.count).toBeGreaterThan(0);
@@ -20,7 +19,6 @@ describe('checkPasswordBreach (real API)', () => {
   test('should not detect a breach for a strong, unique password', async () => {
     const unique = 'ZzYyXxWw123!@#abcDEF' + Date.now();
     const result = await checkPasswordBreach(unique);
-    console.log(result);
     expect(result.valid).toBe(true);
     expect(result.breached).toBe(false);
     expect(result.message).toMatch(/não encontrada/);
