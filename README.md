@@ -87,10 +87,10 @@ http://localhost:3000
 ## 🧪 Como Executar os Testes
 
 ```bash
-#Unit + Integration
+# Unit + Integration
 npm test
 
-#E2E
+# E2E
 npm run cypress:open
 
 # Cypress E2E + Unit
@@ -130,24 +130,4 @@ secure-password-generator/
 ├── package.json
 ├── package-lock.json
 └── README.md
-
-
-├── public/
-│   ├── index.html                 # Interface principal
-│   └── style.css                  # Estilos CSS
-├── src/
-│   ├── app.js                     # Servidor Express
-│   ├── password.js                # Lógica de geração
-│   ├── checkPasswordStrength.js   # Análise de força
-│   ├── check-breach.js            # Verificação de vazamentos
-│   ├── *.test.js                  # Testes unitários
-├── tests/
-│   └── *.e2e.test.js             # Testes de integração
-
-├── jest.config.js                 # Configuração Jest
-├── package.json
-└── README.md
-
-
-
 ```
