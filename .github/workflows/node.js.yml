@@ -38,7 +38,7 @@ jobs:
 
 
   # Job separado para testes E2E com Cypress
-   cypress-simple:
+  cypress-simple:
     runs-on: ubuntu-22.04
     
     steps:
