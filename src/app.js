@@ -30,7 +30,7 @@ app.get('/generate', (req, res) => {
   }
 });
 
-app.get('/check-Password-Strength', (req, res) => {
+app.get('/check-password-strength', (req, res) => {
 
   const result = checkPasswordStrength(req.query.password);
   if (!result.valid) {
