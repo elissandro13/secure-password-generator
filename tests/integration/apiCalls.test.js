@@ -1,9 +1,9 @@
 const request = require('supertest');
 const express = require('express');
 const path = require('path');
-const { generatePassword, generateReadablePassword } = require('../src/password');
-const { checkPasswordBreach } = require('../src/check-breach');
-const { checkPasswordStrength } = require('../src/checkPasswordStrength');
+const { generatePassword, generateReadablePassword } = require('../../src/password');
+const { checkPasswordBreach } = require('../../src/check-breach');
+const { checkPasswordStrength } = require('../../src/checkPasswordStrength');
 
 // Configuração da aplicação para testes
 const app = express();

@@ -1,13 +1,14 @@
-name: Node.js CI
+name: Node.js CI with Cypress
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 jobs:
-  build:
+  # Job para testes unitários e de integração
+  unit-tests:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -26,10 +27,78 @@ jobs:
       - name: 📦 Instalar dependências
         run: npm ci
 
-      - name: 🧪 Executar testes
+      - name: 🧪 Executar testes unitários
         run: npm test
 
-      - name: Upload coverage reports to Codecov
+      - name: 📊 Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  # Job separado para testes E2E com Cypress
+  cypress-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+        browser: [chrome, firefox, edge]
+    
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🟢 Usar Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: 📦 Instalar dependências
+        run: npm ci
+
+      - name: 🖥️ Instalar dependências do sistema para Cypress
+        run: |
+          sudo apt-get update
+          sudo apt-get install --no-install-recommends -y \
+            libgtk2.0-0 \
+            libgtk-3-0 \
+            libgbm-dev \
+            libnotify-dev \
+            libgconf-2-4 \
+            libnss3 \
+            libxss1 \
+            libasound2 \
+            libxtst6 \
+            xauth \
+            xvfb
+
+      - name: 🔧 Verificar instalação do Cypress
+        run: npx cypress verify
+
+      - name: 🚀 Executar testes E2E com Cypress
+        uses: cypress-io/github-action@v6
+        with:
+          browser: ${{ matrix.browser }}
+          start: npm start
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
+          record: false
+          parallel: false
+          group: 'E2E Tests - ${{ matrix.browser }}'
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+      - name: 📸 Upload screenshots em caso de falha
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots-${{ matrix.browser }}-${{ matrix.node-version }}
+          path: cypress/screenshots
+          retention-days: 7
+
+      - name: 🎥 Upload vídeos dos testes
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos-${{ matrix.browser }}-${{ matrix.node-version }}
+          path: cypress/videos
+          retention-days: 7

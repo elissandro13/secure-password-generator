@@ -2,7 +2,7 @@
 # 🔐 Gerador e Analisador de Senhas
 [![codecov](https://codecov.io/gh/elissandro13/secure-password-generator/graph/badge.svg?token=PT0TN4Q45L)](https://codecov.io/gh/elissandro13/secure-password-generator)
 
-Aplicação web simples e funcional para geração e análise de senhas seguras, desenvolvida com Node.js, Express e Jest. Permite personalizar senhas, verificar sua força e se foram vazadas. Ideal para estudo de boas práticas em desenvolvimento, testes automatizados e CI/CD com GitHub Actions.
+Aplicação web simples e funcional para geração e análise de senhas seguras, desenvolvida com Node.js, Express, Jest, Supertest e Cypress. Permite personalizar senhas, verificar sua força e se foram vazadas. Ideal para estudo de boas práticas em desenvolvimento, testes automatizados e CI/CD com GitHub Actions.
 
 ---
 ![Tela de Geração de Senha](./images/GeradordeSenhas.png)
@@ -52,6 +52,9 @@ Este projeto foi desenvolvido como parte do trabalho prático de Engenharia de S
 - **Node.js** – Backend JavaScript
 - **Express.js** – Framework web
 - **Jest** – Testes unitários
+- **Supertest** - Testes de integração HTTP
+- **Cypress** - Testes E2E automatizados
+- **Codecov** - Análise de cobertura
 - **HTML + CSS + JS** – Front-end
 - **Axios** – Requisições HTTP para HIBP
 - **GitHub Actions** – Integração e testes automáticos (CI/CD)
@@ -84,7 +87,14 @@ http://localhost:3000
 ## 🧪 Como Executar os Testes
 
 ```bash
+#Unit + Integration
 npm test
+
+#E2E
+npm run cypress:open
+
+# Cypress E2E + Unit
+npm run test:all
 ```
 
 ---
@@ -108,9 +118,36 @@ secure-password-generator/
 │   ├── check-breach.test.js
 │   ├── checkPasswordStrength.test.js
 │   └── password.test.js
+├── cypress/
+│   ├── e2e/
+│   │   ├── password-generator.cy
+│   ├── support/
+│   │   ├── commands.js            # Comandos customizados
+│   │   └── e2e.js                 # Configurações globais
 ├── .gitignore
+├── cypress.config.js              # Configuração Cypress
 ├── LICENSE
 ├── package.json
 ├── package-lock.json
 └── README.md
+
+
+├── public/
+│   ├── index.html                 # Interface principal
+│   └── style.css                  # Estilos CSS
+├── src/
+│   ├── app.js                     # Servidor Express
+│   ├── password.js                # Lógica de geração
+│   ├── checkPasswordStrength.js   # Análise de força
+│   ├── check-breach.js            # Verificação de vazamentos
+│   ├── *.test.js                  # Testes unitários
+├── tests/
+│   └── *.e2e.test.js             # Testes de integração
+
+├── jest.config.js                 # Configuração Jest
+├── package.json
+└── README.md
+
+
+
 ```

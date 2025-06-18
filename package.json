@@ -5,7 +5,19 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "test:unit": "jest src/unit/",
+    "test:integration": "jest tests/integration/",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:run:headless": "cypress run --headless",
+    "cypress:run:chrome": "cypress run --browser chrome",
+    "cypress:run:firefox": "cypress run --browser firefox",
+    "test:e2e": "start-server-and-test start http://localhost:3000 cypress:run",
+    "test:e2e:open": "start-server-and-test dev http://localhost:3000 cypress:open",
+    "test:all": "npm run test && npm run test:e2e"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +25,9 @@
   "type": "commonjs",
   "dependencies": {
     "axios": "^1.9.0",
+    "cypress": "^14.5.0",
     "express": "^5.1.0",
+    "start-server-and-test": "^2.0.12",
     "supertest": "^7.1.1"
   },
   "devDependencies": {
