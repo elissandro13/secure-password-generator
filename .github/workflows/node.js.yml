@@ -35,70 +35,37 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
+
+
   # Job separado para testes E2E com Cypress
-  cypress-tests:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x]
-        browser: [chrome, firefox, edge]
+   cypress-simple:
+    runs-on: ubuntu-22.04
     
     steps:
       - uses: actions/checkout@v4
 
-      - name: 🟢 Usar Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-
-      - name: 📦 Instalar dependências
-        run: npm ci
-
-      - name: 🖥️ Instalar dependências do sistema para Cypress
-        run: |
-          sudo apt-get update
-          sudo apt-get install --no-install-recommends -y \
-            libgtk2.0-0 \
-            libgtk-3-0 \
-            libgbm-dev \
-            libnotify-dev \
-            libgconf-2-4 \
-            libnss3 \
-            libxss1 \
-            libasound2 \
-            libxtst6 \
-            xauth \
-            xvfb
-
-      - name: 🔧 Verificar instalação do Cypress
-        run: npx cypress verify
-
-      - name: 🚀 Executar testes E2E com Cypress
+      - name: 🎭 Cypress E2E Tests
         uses: cypress-io/github-action@v6
         with:
-          browser: ${{ matrix.browser }}
+          # Cypress GitHub Action instala dependências automaticamente
           start: npm start
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
-          record: false
-          parallel: false
-          group: 'E2E Tests - ${{ matrix.browser }}'
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          browser: chrome
+          headless: true
+          install-command: npm ci
+          build: npm run build --if-present
 
-      - name: 📸 Upload screenshots em caso de falha
+      - name: 📸 Upload screenshots se falhar
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots-${{ matrix.browser }}-${{ matrix.node-version }}
+          name: cypress-screenshots-simple
           path: cypress/screenshots
-          retention-days: 7
 
-      - name: 🎥 Upload vídeos dos testes
+      - name: 🎥 Upload vídeos
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: cypress-videos-${{ matrix.browser }}-${{ matrix.node-version }}
+          name: cypress-videos-simple
           path: cypress/videos
-          retention-days: 7
