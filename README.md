@@ -73,7 +73,7 @@ git clone https://github.com/elissandro13/secure-password-generator.git
 cd secure-password-generator
 
 # 2. Instale as dependências
-npm install
+npm install ou npm ci
 
 # 3. Inicie o servidor
 npm start
@@ -91,7 +91,7 @@ http://localhost:3000
 npm test
 
 # E2E
-npm run cypress:open
+npm run cypress:open (Com o servidor web inicializado)
 
 # Cypress E2E + Unit
 npm run test:all
@@ -114,10 +114,13 @@ secure-password-generator/
 │   ├── check-breach.js
 │   ├── checkPasswordStrength.js
 │   └── password.js
-├── tests/                      # Testes com Jest
-│   ├── check-breach.test.js
-│   ├── checkPasswordStrength.test.js
-│   └── password.test.js
+├── tests/
+│   ├── integration/
+│   │   └── apiCalls.test.js       # Testes de integração da API
+│   └── unit/                      # Testes unitários adicionais com Jest
+│       ├── check-breach.test.js
+│       ├── checkPasswordStrength.test.js
+│       └── password.test.js
 ├── cypress/
 │   ├── e2e/
 │   │   ├── password-generator.cy
